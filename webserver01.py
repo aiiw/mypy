@@ -1,45 +1,32 @@
-import soaplib
-from soaplib.core.service import rpc, DefinitionBase
-from soaplib.core.model.primitive import String, Integer, Boolean
-from soaplib.core.server import wsgi
-from soaplib.core.model.clazz import Array
-from soaplib.core.service import soap
-from soaplib.core.model.clazz import ClassModel
+# Create your views here.
+#-*- coding: utf-8 -*-
+import json
+
+from django.shortcuts import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+# import logging
+# logging.basicConfig(level=logging.DEBUG)
+# from spyne import Application, rpc, ServiceBase,Integer, Unicode
+from spyne import Application, rpc, ServiceBase, Unicode
+from spyne import Iterable
+from spyne.protocol.soap import Soap11
+# from spyne.protocol.json import JsonDocument
+from spyne.server.django import DjangoApplication
 
 
-class Rules(ClassModel):
-    __namespace__ = "Rules"
-    username = String
-    emotion = String
+class HelloWorldService(ServiceBase):
+    @rpc(Unicode, _returns=Iterable(Unicode))
+    def ess_information(ctx, data):
+        dic = {"a":1,"b":2}
+        return HttpResponse(json.dumps(dic))
 
+application = Application([HelloWorldService],
+    tns='spyne.examples.hello',
+    in_protocol=Soap11(validator='lxml'),
+    out_protocol=Soap11()
+)
 
-class HelloWorldService(DefinitionBase):
-    @soap(String, Integer, _returns=Array(String))
-    def say_hello(self, name, times):
-        results = []
-        for i in range(0, times):
-            results.append('Hello, %s' % name)
-        return results
+# This module resides in a package in your Django
+# project.
 
-    @soap(Rules, _returns=Boolean)
-    def get_recommend(self, rules):
-        print
-        rules.username
-        print("aaaaaa")
-        111
-        print("aaaaaa")
-        rules.emotion
-
-        return 1
-
-
-if __name__ == '__main__':
-    try:
-        from wsgiref.simple_server import make_server
-
-        soap_application = soaplib.core.Application([HelloWorldService], 'tns')
-        wsgi_application = wsgi.Application(soap_application)
-        server = make_server('localhost', 7789, wsgi_application)
-        server.serve_forever()
-    except ImportError:
-        print("aaaaaa")
+information_app = csrf_exempt(DjangoApplication(application))
