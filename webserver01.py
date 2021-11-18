@@ -21,7 +21,7 @@ class HelloWorldService(ServiceBase):
         return HttpResponse(json.dumps(dic))
 
 application = Application([HelloWorldService],
-    tns='spyne.examples.hello',
+    tns='spyne.examples.api',
     in_protocol=Soap11(validator='lxml'),
     out_protocol=Soap11()
 )

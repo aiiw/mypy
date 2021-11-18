@@ -2,7 +2,8 @@
 from fastapi import FastAPI,Query
 import uvicorn
 from sendoa.sendoa import sendoa
-from typing import Tuple,List,Dict
+from typing import Tuple,List,Dict,Optional
+from pydantic import BaseModel
 
 # 类似于 app = Flask(__name__)
 app = FastAPI()
@@ -31,6 +32,20 @@ async def read_items(content:str,q: List[str] = Query(None)):
     	return result
     print(query_items)
     return "信息发送失败,请检查相关问题"
+
+class Girl(BaseModel):
+    """数据验证是通过 pydantic 实现的，我们需要从中导入 BaseModel，然后继承它"""
+    name: str
+    age: Optional[str] = None
+    length: float=None
+    hobby: List[str]=None  # 对于 Model 中的 List[str] 我们不需要指定 Query（准确的说是 Field）
+
+
+@app.post("/aiiw")
+async def read_girl(girl: Girl):
+    # girl 就是我们接收的请求体，它需要通过 json 来传递，并且这个 json 要有上面的四个字段（age 可以没有）
+    # 通过 girl.xxx 的方式我们可以获取和修改内部的所有属性
+    return dict(girl)  # 直接返回 Model 对象也是可以的
 
 
 # 在 Windows 中必须加上 if __name__ == "__main__"，否则会抛出 RuntimeError: This event loop is already running
