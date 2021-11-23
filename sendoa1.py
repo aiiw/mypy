@@ -1,4 +1,4 @@
-import requests,json
+ import requests,json
 from urllib.parse import  quote,unquote
 from . import connector
 import time
@@ -48,12 +48,11 @@ session = requests.Session()
       'Referer': 'http://192.168.0.101/general/status_bar/sms_back.php?I_VER=2&type=mac&C=Web'
   }
   a='<div><span style="color:#FF0000;"><strong>%s</strong></span></div>'%sstr
-  a='''<table style="width:100%;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
-<tr><td>1</td><td>2</td><td>3</td></tr> 
-</table>'''
+  a='''<li>1</li><li>2</li><li>3</li><li>4</li><li>5</li>'''
   a1=a.encode('gbk')
   # print(a1)
   for ssid in sid:
     print(sid)
     data = {'TO_UID':ssid,'TO_NAME':'','TD_HTML_EDITOR_CONTENT':a1,'I_VER':'2','C':'web','ACTION_TYPE':'sms'}
     r = requests.post( r'http://192.168.0.101/general/status_bar/sms_send.php', headers=headers,data=data)
+    #<br><p><a><span><strong><b><em><u><img><ul><li><ol><font><div>

@@ -47,6 +47,7 @@ def callkqtask():
     key1=year+month02
     print(key1)
     periodid=dic[key1]
+    print(periodid)
 
 
     # month01=re.sub('\-',' ',month00)
