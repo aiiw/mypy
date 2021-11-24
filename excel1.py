@@ -46,3 +46,17 @@ sheet.range('a1').value=ls
 book.save('77.xlsx')
 book.close()
 app.quit()
+'''
+xlwings修改Excel标签（sheet）名 (2020-11-17 10:18:45)转载▼
+标签： python xlwings sheet 修改 名	分类： Python
+import xlwings as xw
+app = xw.App(visible=False, add_book=True)
+workbookwt = app.books.add()
+worksheet = workbookwt.sheets[0]
+worksheet.name='标签名'
+
+workbookwt.save('文件名' + '.xls')
+workbookwt.close()
+app.quit()
+
+'''
