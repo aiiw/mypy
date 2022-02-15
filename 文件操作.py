@@ -14,9 +14,9 @@ cur_path_parent=cur_path.parent #这个是很直观
 join_path=Path.cwd()
 vs=join_path.joinpath('aa','bb')
 print(vs)
-#这个是创建目录
-cc=Path("123//123//123")
-cc.mkdir(mode=777,parents=1)
+# #这个是创建目录
+# cc=Path("123//123//123")
+# cc.mkdir(mode=777,parents=1)
 
 p = Path(r"d:\py")
 print(type(p))
@@ -48,6 +48,6 @@ vv.write("bbk")
 with q.open('a+') as vv: #普通的写文件
     vv.write("aaaa")
 if  not q.exists():      #判断文件是否存在
-    q.rename('a2.txt')   #更改文件名
+    q.rename('a5.txt')   #更改文件名
 
 

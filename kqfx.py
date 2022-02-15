@@ -10,6 +10,7 @@ from remonth import remonths
 
 def callkqtask():
     a = arrow.now()
+    print(a)
     year = str(a.year)
     month = str(a.month)
     day = str(a.day)
@@ -26,8 +27,8 @@ def callkqtask():
 
 
 
-    startday = year+'-'+month+'-01'
-    endday = year+'-'+month+'-'+day
+    startday = year+'-'+month02+'-01'
+    endday = year+'-'+month02+'-'+day
 
     # month00=str(a)[0:7]+"月"
     #如下为增加取periodid

@@ -17,7 +17,7 @@ passWord = '$u2930123WJ'
 #建立连接并获取cursor
 conn = pymssql.connect(serverName , userName , passWord, "KQA")
 cursor = conn.cursor()
-value=('16','10418','2021-11-22 00:00:00.000','13:03:00')
+value=('16','11608 ','2022-02-11 00:00:00.000','13:18:25')
 sql= f'INSERT into WorkCardSource VALUES {value}'
 # 查询记录
 cursor.execute(sql)
@@ -33,3 +33,8 @@ cursor.execute(sql)
 # # 连接用完后记得关闭以释放资源
 conn.commit()
 conn.close()
+
+
+# 11497 09:00
+# 11307 09:30
+# 10418 07:56

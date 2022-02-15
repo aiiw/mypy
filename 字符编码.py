@@ -9,8 +9,8 @@ a1=a.encode()
 print(a1)
 a2=a.encode('utf-8')
 print(a2)
-
-
+a3=a.encode('gbk')
+print(a3)
 # s1 = {'TO_UID':'1','TO_NAME':'','TD_HTML_EDITOR_CONTENT':a1,'I_VER':'2','C':'web','ACTION_TYPE':'sms'}
 # # encode ±àÂë£¬ÈçºÎ½«str --> bytes, ()
 # # s11=json.dumps(s1)

@@ -66,7 +66,12 @@ async def read_girl(request: Request):
     # 是一个协程，所以需要 await
     data = await request.body()
     print(data)
-
+@app.get("/test")
+async def test(request: Request):
+    # 是一个协程，所以需要 await
+    data = request.headers
+    print(data)
+    return ("aiiw111")
 
 # 在 Windows 中必须加上 if __name__ == "__main__"，否则会抛出 RuntimeError: This event loop is already running
 if __name__ == "__main__":
