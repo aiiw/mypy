@@ -1,0 +1,28 @@
+<style>.preferinces-label {height: 23px;display: inline-block;font-weight: bold;margin-left:7px;}
+ .Period-input{height: 21px;}</style><table>
+    <tr>
+<td>年份：
+</td>
+<td>
+ <select id="Year" name="Year" ui-type="dropdownlist" style="width:60px;"></select>
+</td>
+<td><label class="preferinces-label" for="DeptCode">部门：</label></td><td><input type="hidden" id="DeptID" name="DeptID" value="0" /><input type="hidden" id="FullCode" name="FullCode" value="" /><input type="text" id="DeptCode" name="DeptCode" ui-type="buttonEdit" maxlength="20" style="width: 80px;" ui-options='{"windowOptions":{"title":"查找数据","height":"450","width":"605","modal":true,"ajaxOptions":{"url":"/OpenWindow/Cust","type":"POST","data":{"AppCode":"FrmOpenWindow","InterCode":"eHR_Dept","Filter":"","RtnFillField":"DeptID=ID,DeptName=DepartmentName,DeptCode=DepartmentCode,FullCode=FullCode","OpenType":"1","OtherProp":"64","OnAfterFill":"","FormId":"#searchForm"}}}}' /><input type="text" id="DeptName" name="DeptName" ui-type="text" readonly="readonly" maxlength="20" style="width: 100px;" /></td>
+    </tr>
+</table>
+<script>FuzzySearch("APeriod", { "id": "", "name": "" }, true, APeriodCallBack);_aPeriodFilter = " MonthID >='" + "33" + "'";function APeriodCallBack() {var diyinfo = JSON.parse($("#APeriodSIpt").attr("diyinfo"));if ($("#APeriodSIpt").val() && $("#APeriodSIpt").val() != "") {_aPeriodFilter = " MonthID >='" + diyinfo["ID"] + "'";} else {_aPeriodFilter = " MonthID is not null";}var PeriodID = diyinfo["ID"];$("#PeriodID").val(PeriodID);onRefresh();}FuzzySearch("BPeriod", { "id": "", "name": "" }, true, BPeriodCallBack);_bPeriodFilter = " MonthID >='" + "33" + "'";function BPeriodCallBack() {var diyinfo = JSON.parse($("#BPeriodSIpt").attr("diyinfo"));if ($("#BPeriodSIpt").val() && $("#BPeriodSIpt").val() != "") {_bPeriodFilter = " MonthID >='" + diyinfo["ID"] + "'";} else {_bPeriodFilter = " MonthID is not null";}var StartPeriodID = diyinfo["ID"];$("#StartPeriodID").val(StartPeriodID);onRefresh();}FuzzySearch("EPeriod", { "id": "", "name": "" }, true, EPeriodCallBack);_ePeriodFilter = " MonthID <='" + "33" + "'";function EPeriodCallBack() {var diyinfo = JSON.parse($("#EPeriodSIpt").attr("diyinfo"));if ($("#EPeriodSIpt").val() && $("#EPeriodSIpt").val() != "") {_ePeriodFilter = " MonthID <='" + diyinfo["ID"] + "'";} else {_ePeriodFilter = " MonthID is not null";}var EndPeriodID = diyinfo["ID"];$("#EndPeriodID").val(EndPeriodID);onRefresh();};</script>
+
+<script type="text/javascript">
+    $(function () {
+        var dateTimeNow = $("#DateNow").val();
+        var date = new Date(dateTimeNow);
+        var year = date.getFullYear().toString();
+      
+        var opts1 = "";
+        for (var i = -5; i <= 5; i++) {
+            var tmpYear = (parseInt(year) + i).toString();
+            var selected = (tmpYear == year) ? " selected=\"selected\"" : "";
+            opts1 += "<option value=\"" + tmpYear + "\" " + selected + ">" + tmpYear + "</option>";
+        }
+        $("#Year").html(opts1);       
+    })
+</script>

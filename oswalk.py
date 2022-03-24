@@ -23,7 +23,7 @@ class walk():
 				for name in dir:
 					str=str+os.path.join(root, name)+'\n'
 				for name in file:
-					str=str+os.path.join(root, name)+'\n'
+					str=str+os.path.join(root.replace("//","\\"), name)+'\n'
 		return str
 if __name__ == '__main__':
 	print("东")

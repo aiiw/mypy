@@ -242,29 +242,9 @@ def uploadimg():
 def uploadtemp(type):
 	ACCESS_TOKEN=get__token(appid,sceret)
 	api_url='https://qyapi.weixin.qq.com/cgi-bin/media/upload?access_token={}&type={}'.format(ACCESS_TOKEN,type)
-	files = {'file': open(r'D:\\py\\wx_lj.xls', 'rb')}
+	files = {'file': open(r'../img/1.png', 'rb')}
 	response=requests.post(api_url,files=files)
-	return json.loads(response.text).get('media_id')
-
-def sendfile():
-	ACCESS_TOKEN=get__token(appid,sceret)
-	dic={
-   "touser" : "11608",
-   "toparty" : "PartyID1|PartyID2",
-   "totag" : "TagID1 | TagID2",
-   "msgtype" : "file",
-   "agentid" : 1000012,
-   "file" : {
-        "media_id" : uploadtemp('file')
-   },
-   "safe":0,
-   "enable_duplicate_check": 0,
-   "duplicate_check_interval": 1800
-}
-	api_url='https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={}'.format(ACCESS_TOKEN)
-	response=requests.post(api_url,data=json.dumps(dic))
 	print(response.text)
-
 
 if __name__ == '__main__':
 	# getdept() #获取指定部门
@@ -272,7 +252,5 @@ if __name__ == '__main__':
 	#sendmsg()
 	# sendmsg_mb() #这个测试失败,暂时放弃
 	#uploadimg() #返回了这个 https://wework.qpic.cn/wwpic/465005_Jjwo_ZyJS-q-E6D_1644908706/0
-    sendfile()
-
-#{"errcode":0,"errmsg":"ok","type":"file","media_id":"3QZpg8mam4pIQ4IdB86oH7BUYtkjMjotd-bIvXdihrfqhMN0Nx3YbgPoUZbwy-QlS","created_at":"1644911611"}
+	uploadtemp('file')
 

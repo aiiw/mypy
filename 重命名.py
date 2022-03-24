@@ -16,11 +16,3 @@ for root,dir,file in os.walk(path):
 			os.system('rename %s %s'%(f,x))
 			# print('dir %s'%('192.18.1.1'))
 			# os.rename(f,d+str(n)+'.png') 
-form_data = {
-      "ReturnUrl":"/"
-      "Login": "admin",
-      "Password": "txcallme",
-      "ValidateCode": 1,
-      "RememberMe":0
-      "ValidateCodeID":"ValidateCode1"
-}

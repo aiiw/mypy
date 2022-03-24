@@ -1,0 +1,4 @@
+2021-11-15 16:25:32,254 - mylogging.py[line:21] - INFO: this is a logger info message
+2021-11-15 16:25:32,254 - mylogging.py[line:22] - WARNING: this is a logger warning message
+2021-11-15 16:25:32,255 - mylogging.py[line:23] - ERROR: this is a logger error message
+2021-11-15 16:25:32,255 - mylogging.py[line:24] - CRITICAL: this is a logger critical message

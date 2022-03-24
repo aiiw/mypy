@@ -1,3 +1,3 @@
 import redis
-client=redis.Redis(host='192.168.0.7')
-client.set('a', 'aiiw')
+r=redis.Redis(host='192.168.0.7')
+r.set('a', 'aiiw1')

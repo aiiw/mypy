@@ -23,7 +23,7 @@ print(type(p))
 for i in p.iterdir():
   print(i)
 
-print(p.parts)  # 分割路径 类似os.path.split(), 不过返回元组
+print("aaaa",p.parts)  # 分割路径 类似os.path.split(), 不过返回元组
 
 print(p.drive)  # 返回驱动器名称
 
