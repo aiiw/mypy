@@ -66,14 +66,31 @@ def searchfile(path,key,access_token):
     url='http://pan.baidu.com/rest/2.0/xpan/file?dir={}&access_token={}&web=1&recursion=1&page=1&num=2&method=search&key={}'.format(path,access_token,key)
     response=requests.get(url)
     list1=json.loads(response.text)['list']
-
     print(list1)
+def getdlink(fsid,access_token):
+
+    url = "http://pan.baidu.com/rest/2.0/xpan/multimedia?access_token={}&method=filemetas&fsids=[{}]&thumb=1&dlink=1&extra=1".format(access_token,fsid)
+
+    payload = {}
+    files = {}
+    headers = {
+    'User-Agent': 'pan.baidu.com'
+    }
+
+    response = requests.get(url, headers=headers, data = payload, files = files)
+    list1=json.loads(response.text)['list'][0]['dlink']
+    print(list1)
+
+
 if __name__ == '__main__':
     # getdept() #获取指定部门
     #getdept() #将部门写入wx_dept表
     access_token="121.e494ee8984c531ac79020535267acec2.Y5smkIIeayV_loeySayVYm4j1p07RCBo-JMj6r8.4oFrIg"
     # getfile('/学习视频',access_token)
-    searchfile('/学习视频','12306',access_token)
+    searchfile('/','d邪',access_token) #这个是做搜索文件
+    print("=======================================================================")
+    getdlink('1095941852184756',access_token)
+
 
 
 

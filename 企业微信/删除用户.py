@@ -124,5 +124,7 @@ def deluser(code):
 if __name__ == '__main__':
     # getdept() #获取指定部门
     #getdept() #将部门写入wx_dept表
-    deluser('11633')
+    list=['62497','11807','11517','10094','63009','62982','62286','62016','62883','11724']
+    for i in list:
+        deluser('%s'%i)
 

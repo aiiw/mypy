@@ -26,7 +26,7 @@ import json
 aa=json.dumps(xml_dict,sort_keys=True,indent=5) #这个indent很强大,格式化代码,无论是打印输出,或者是输入到文件都是生效的
 testjson=json.loads(aa)
 testjson.get('zabbix_export')['groups']['aaaa']='111222'# get获取值,如果字典值不存在则添加,存在:分1)值类似为字典,通过[添加键值对],其他类型则是修改的意思.
-aa=json.dumps(testjson,sort_keys=True,indent=5)
+aa=json.dumps(testjson,sort_keys=True,indent=5,ensure_ascii=False)
 print(aa)
 wfp=Path("xml_to_json.json")
 wfp.write_text(aa)

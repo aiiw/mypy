@@ -41,6 +41,12 @@ p = re.compile(r'[\s\,\;]+')
 print (p.split('a,b;; c   d'))
 
 #sub 方法用于替换
+print("----------")
 p = re.compile(r'(\w+) (\w+)') # \w = [A-Za-z0-9_]
 s = 'hello 123, hello 456'
-print (p.sub(r'hello world', s))  #两上参数，第一个是需要替换的字符，第二个是源 使用 'hello world' 替换 'hello 123' 和 'hello 456'
+print (p.sub(r'hello world', s))  #P为匹配的规则,,,,两上参数，第一个是需要替换的字符，第二个是源(被替换)使用 'hello world' 替换 'hello 123' 和 'hello 456'  
+
+ss=' OU=设备管理科 ,  OU=SBB设备部 ,  OU=Mastergroup ,dc=mastercn,dc=local'
+p=re.compile(r'\s')
+s1=p.sub('',ss)
+print(s1)
