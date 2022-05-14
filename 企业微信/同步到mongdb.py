@@ -60,75 +60,24 @@ def get__token(appid,sceret):
 # https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid='wwda00f8b50a26dbd2'&corpsecret='ANWGMbduyJhzLoragXRKuYYdH9y4QcDfxNS7oQXc7w0'
 
 def wxapi():
+    print("aa")
     ACCESS_TOKEN=get__token(appid,sceret)
     dept_id='1'
     op='1'
     api_url='https://qyapi.weixin.qq.com/cgi-bin/user/simplelist?access_token={}&department_id={}&fetch_child={}'.format(ACCESS_TOKEN,dept_id,op)
     response=requests.get(api_url)
     b = response.content.decode( 'utf-8' )
-
-
-
-def getdept():
-    ACCESS_TOKEN=get__token(appid,sceret)
-    api_url='https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token={}&id=1'.format(ACCESS_TOKEN)
-    response=requests.get(api_url)
-    b = response.text
-
-
-    obj=json.loads(b)
-    # print(obj)
-    # print(obj.get('userlist'))
-    list=[]
-    for item in obj.get('department'):
-
-        a=(item.get('id'),item.get('name'),item.get('parentid'))
-
-        list.append(a)
-    print(list)
-    import sys
-    sys.path.append('../') #这个是添加模块的路径
-
-    import connector
-
-    mydb = connector.connect(
-    host="192.168.0.101",
-    user="root",
-    port="3336",
-    passwd="myoa888",
-    database="TD_OA",
-    auth_plugin='mysql_native_password',  # 要加上这个东东才行,
-
-    )
-    mycursor = mydb.cursor()
-    mycursor.execute('truncate table wx_dept')
-    # value=[('16','62917','2021-10-20 00:00:00.000','07:29:00'),('16','62917','2021-10-20 00:00:00.000','11:30:00'),('16','62917','2021-10-20 00:00:00.000','13:29:00'),('16','62917','2021-10-20 00:00:00.000','17:31:00')]
-    sql= f'INSERT into wx_dept(vid,name,parentid) values(%s,%s,%s)'
-    mycursor.executemany(sql,list)
-    mydb.commit()
-    mydb.close()
-
-def updatedept(id,parentid):
-    ACCESS_TOKEN=get__token(appid,sceret)
-
-    api_url='https://qyapi.weixin.qq.com/cgi-bin/department/update?access_token={}&debug=1'.format(ACCESS_TOKEN)
-    mb={
-    "id": id,
-    "parentid": parentid}
-    response=requests.post(api_url,data=mb)
-    mb1=json.dumps(mb).encode('utf-8').decode('utf-8')
-    print(mb1)
-    response=requests.post(api_url,data=json.dumps(mb))#说明这个data参数是用str,重温下,dump将dict转为string,loads将str转为dict(json)
-    # response=requests.post(api_url,data=mb)
-    print(response.text)
-    print(mb)
-
-
-
-
-
+    print(b,"aa")
+    print("end")
+    from pymongo import MongoClient
+    client = MongoClient("mongodb://localhost:27017/")
+    mydb = client["aiiw"] #client 指向数据库
+    mycol = mydb["weixin_user01"] # 注意这个地方,这个表是可以直接指定,不需要提前创建
+    dict=json.loads(b)
+    x = mycol.insert_many(dict.get('userlist'))
+    client.close()
 if __name__ == '__main__':
     # getdept() #获取指定部门
     #getdept() #将部门写入wx_dept表
-    updatedept('356','1')
+    wxapi()
 

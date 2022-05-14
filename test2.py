@@ -1,4 +1,2 @@
-dic={}
-dic['a']=1
-dic['b']=2
-print(dic)
+import keyring
+keyring.set_password('public01','test','123321')

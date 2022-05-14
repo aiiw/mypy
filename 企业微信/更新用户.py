@@ -68,7 +68,6 @@ def wxapi():
     b = response.content.decode( 'utf-8' )
 
 
-
 def getdept():
     ACCESS_TOKEN=get__token(appid,sceret)
     api_url='https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token={}&id=1'.format(ACCESS_TOKEN)

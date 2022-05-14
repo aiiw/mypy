@@ -21,3 +21,6 @@ list = [20, 16, 10, 5]
 data=random.shuffle(list)
 print(data)
 #[5, 20, 10, 16]
+import keyring
+password=keyring.get_password('public01','test')
+print(password)

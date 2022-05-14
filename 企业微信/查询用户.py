@@ -68,15 +68,30 @@ def wxapi():
     b = response.content.decode( 'utf-8' )
 
 
+def gethead(sql,mydb):
+    mycursor=mydb.cursor(buffered=True)
 
-def getdept():
+    try:
+        mycursor.execute(sql)
+        desc=mycursor.description
+        meat = []
+        for item in desc:
+            meat.append(item[0])
+        return (meat)
+
+    except Exception as e:
+        raise e
+
+
+def getuser():
     ACCESS_TOKEN=get__token(appid,sceret)
-    api_url='https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token={}&id=1'.format(ACCESS_TOKEN)
+    api_url='https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token={ACCESS_TOKEN}&userid={USERID}'.format(ACCESS_TOKEN,USERID)
     response=requests.get(api_url)
     b = response.text
 
 
     obj=json.loads(b)
+    sql= f'select d.DEPT_NAME,u.BYNAME,u.USER_NAME from user u left join department d on u.DEPT_ID=d.DEPT_ID'
     # print(obj)
     # print(obj.get('userlist'))
     list=[]
@@ -108,31 +123,28 @@ def getdept():
     mydb.commit()
     mydb.close()
 
-def createuser(code,name,dept,tel):
+def getemp():#这里按部门查人员信息
+    
     ACCESS_TOKEN=get__token(appid,sceret)
-    api_url='https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token={}'.format(ACCESS_TOKEN)
-    mb={
-    "userid": code,
-    "name": name,
-    "mobile": tel,
-    "department":['{}'.format(dept)]}
-    response=requests.post(api_url,data=mb)
-    mb1=json.dumps(mb).encode('utf-8').decode('utf-8')
-    print(mb1)
-    response=requests.post(api_url,data=json.dumps(mb))#说明这个data参数是用str,重温下,dump将dict转为string,loads将str转为dict(json)
-    # response=requests.post(api_url,data=mb)
-    print(response.text)
-    print(mb)
+    DEPARTMENT_ID='1' #广东万事泰集团有限公司
+    FETCH_CHILD='1'
 
+    api_url='https://qyapi.weixin.qq.com/cgi-bin/user/simplelist?access_token={}&department_id={}&fetch_child={}'.format(ACCESS_TOKEN,DEPARTMENT_ID,FETCH_CHILD)
+    response=requests.get(api_url)
+    b = response.content.decode( 'utf-8' )
+    #print(b)
+    obj=json.loads(b)
+    # print(obj)
+    # print(obj.get('userlist'))
+    list=[]
+    # for item in obj.get('userlist'):
 
+    #     a=(item.get('userid'),item.get('name'),item.get('department')[0])
 
-
-if __name__ == '__main__':
-    # getdept() #获取指定部门
-    # getdept() #将部门写入wx_dept表
-    # createuser('32690','13622465672')
-#使用前请同步下kettle 的同步新增人员的作业
-
+    #     list.append(a)
+    # print(list)
+    # print(obj.get('userlist'))
+    sql1= f'select d.DEPT_NAME,u.BYNAME,u.USER_NAME from user u left join department d on u.DEPT_ID=d.DEPT_ID'
     import sys
     sys.path.append('../') #这个是添加模块的路径
 
@@ -145,32 +157,46 @@ if __name__ == '__main__':
     passwd="myoa888",
     database="TD_OA",
     auth_plugin='mysql_native_password',  # 要加上这个东东才行,
-
     )
-    mycursor = mydb.cursor()
-    sql1='''
-select u.byname, u.user_name, d1.vid,e.phone
-  from user u
-  left join user_add_hr e
-    on e.code = u.byname
-  left join department d
-    on d.DEPT_ID = u.dept_id
-  left join wx_dept d1 on d.DEPT_NAME=d1.`name`
+    head=gethead(sql1,mydb)
+    mycursor1=mydb.cursor(buffered=True)
+    mycursor1.execute(sql1)
+    result1=mycursor1.fetchall()
+    json_rs={}
+    list_rs=[]
+    for result in result1:
+        list_rs.append(dict(zip(head,result)))
+    for item in list_rs:
+        print(item)
+    for item in obj.get('userlist'):
+        print (item)
 
- where 1 = 1
-   and not exists (select 1 from wx_user t where t.wx_code = u.byname)
-   and e.HireDate > '2022-01-01 00:00:00'
-   and e.employeestatusid = '1'
-'''
-    mycursor.execute(sql1)
-    myrs=mycursor.fetchall()
-    rs_dict={}
-    for item in myrs:
-        if item[2]:
-            print(item)
-            createuser(item[0],item[1],item[2],item[3])
-    # print(rs_dict)
-    mycursor.close()
-    mydb.close()
 
+    # import arrow
+
+    # import connector
+
+    # mydb = connector.connect(
+    # host="192.168.0.101",
+    # user="root",
+    # port="3336",
+    # passwd="myoa888",
+    # database="TD_OA",
+    # auth_plugin='mysql_native_password',  # 要加上这个东东才行,
+
+    # )
+    # mycursor = mydb.cursor()
+    # mycursor.execute('truncate table wx_user')
+    # # value=[('16','62917','2021-10-20 00:00:00.000','07:29:00'),('16','62917','2021-10-20 00:00:00.000','11:30:00'),('16','62917','2021-10-20 00:00:00.000','13:29:00'),('16','62917','2021-10-20 00:00:00.000','17:31:00')]
+    # sql= f'INSERT into wx_user values(%s,%s,%s)'
+    # mycursor.executemany(sql,list)
+    # mydb.commit()
+    # mydb.close()
+
+
+if __name__ == '__main__':
+    # getdept() #获取指定部门
+    #getdept() #将部门写入wx_dept表
+
+    getemp()
 
